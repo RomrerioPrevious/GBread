@@ -4,7 +4,7 @@ import com.gbread.exeptions.IsNotTokenException;
 import com.gbread.work.tokens.Token;
 import com.gbread.work.tokens.TokenTypeList;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,7 +13,7 @@ public class Lexer {
     private final String code;
     private int position;
     private int iterator;
-    List<Token> tokenList = new ArrayList<>();
+    List<Token> tokenList = new LinkedList<>();
 
     public Lexer(String code) {
         this.code = code;
@@ -38,7 +38,7 @@ public class Lexer {
 
     private List<Token> getAllTokensFromSubstring(){
         String word = findNextWord();
-        List<Token> result = new ArrayList<>();
+        List<Token> result = new LinkedList<>();
         Token temp;
         while (true){
             temp = getNextToken(word);
