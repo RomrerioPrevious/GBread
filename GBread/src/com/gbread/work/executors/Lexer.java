@@ -23,7 +23,7 @@ public class Lexer {
         while (nextToken()){
             tokenList.addAll(getAllTokensFromSubstring());
         }
-        System.out.println(tokenList);
+        tokenList = tokenList.stream().filter(token -> token.getType() != TokenTypeList.SPACE.tokenType).toList();
         return tokenList;
     }
 
