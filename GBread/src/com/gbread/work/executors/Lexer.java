@@ -23,7 +23,7 @@ public class Lexer {
         while (nextToken()){
             tokenList.addAll(getAllTokensFromSubstring());
         }
-        tokenList = tokenList.stream().filter(token -> token.getType() != TokenTypeList.SPACE.tokenType).toList();
+        tokenList = tokenList.stream().filter(token -> token.type() != TokenTypeList.SPACE.tokenType).toList();
         return tokenList;
     }
 
@@ -56,7 +56,6 @@ public class Lexer {
         for (TokenTypeList token: tokenTypeList){
             Pattern pattern = Pattern.compile("^" + token.tokenType.regex);
             Matcher matcher = pattern.matcher(word);
-
             if (matcher.find()){
                 position += matcher.group().length();
                 return new Token(token.tokenType, matcher.group(), position);
