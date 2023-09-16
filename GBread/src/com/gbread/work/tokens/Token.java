@@ -1,15 +1,6 @@
 package com.gbread.work.tokens;
 
-public class Token {
-    private final TokenType type;
-    private final String text;
-    private final int position;
-
-    public Token(TokenType type, String text, int position) {
-        this.type = type;
-        this.text = text;
-        this.position = position;
-    }
+public record Token(TokenType type, String text, int position) {
 
     @Override
     public String toString() {
@@ -20,15 +11,27 @@ public class Token {
                 '}';
     }
 
-    public TokenType getType() {
-        return type;
+    public boolean isBinaryOperator(){
+        return isOperator(new TokenType[] {
+                TokenTypeList.PLUS.tokenType,
+                TokenTypeList.MINUS.tokenType
+        });
     }
 
-    public String getText() {
-        return text;
+    public boolean isUnaryOperator(){
+        return isOperator(new TokenType[] {
+                TokenTypeList.IF.tokenType,
+                TokenTypeList.ELSE.tokenType,
+                TokenTypeList.WHILE.tokenType
+        });
     }
 
-    public int getPosition() {
-        return position;
+    private boolean isOperator(TokenType[] types){
+        for (TokenType type: types) {
+            if (this.type == type){
+                return true;
+            }
+        }
+        return false;
     }
 }

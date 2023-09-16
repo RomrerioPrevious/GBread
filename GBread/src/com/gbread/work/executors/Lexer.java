@@ -1,6 +1,6 @@
 package com.gbread.work.executors;
 
-import com.gbread.exeptions.IsNotTokenException;
+import com.gbread.exeptions.tokenExceptions.IsNotTokenException;
 import com.gbread.work.tokens.Token;
 import com.gbread.work.tokens.TokenTypeList;
 
@@ -43,10 +43,10 @@ public class Lexer {
         while (true){
             temp = getNextToken(word);
             result.add(temp);
-            if (temp.getText().equals(word)){
+            if (temp.text().equals(word)){
                break;
             }
-            word = word.substring(temp.getText().length());
+            word = word.substring(temp.text().length());
         }
         return result;
     }
