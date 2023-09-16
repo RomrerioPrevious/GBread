@@ -1,4 +1,4 @@
 package com.gbread.work.AST;
 
-public class Node {
+public abstract class Node {
 }
