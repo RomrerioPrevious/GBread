@@ -1,6 +1,6 @@
 package com.gbread.work.executors;
 
-import com.gbread.exeptions.tokenExceptions.IsNotTokenException;
+import com.gbread.exceptions.tokenExceptions.IsNotTokenException;
 import com.gbread.work.tokens.Token;
 import com.gbread.work.tokens.TokenTypeList;
 

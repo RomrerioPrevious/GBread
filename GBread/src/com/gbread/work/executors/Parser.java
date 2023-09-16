@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Parser {
-    private Token[] tokenArray;
+    private final Token[] tokenArray;
     private int position;
     private Map<String, String> scope = new HashMap<>();
 
@@ -35,7 +35,14 @@ public class Parser {
         if (token.isUnaryOperator()){
             return unaryParser(token);
         }
-        return null;
+        while (!token.type().equals(TokenTypeList.SEMICOLON.tokenType)){
+            position++;
+            token = tokenArray[position];
+            if (token.isBinaryOperator()){
+                return binaryParser(token);
+            }
+        }
+        throw new RuntimeException(); //TODO create new exceptions
     }
 
     private Node unaryParser(Token token) {
@@ -44,15 +51,5 @@ public class Parser {
 
     private Node binaryParser(Token token) {
         return new BinaryNode(token, null, null);
-    }
-
-    public Token match(TokenType... types){
-        Token token = tokenArray[position];
-        for (TokenType type: types) {
-            if (token.type() == type){
-                return token;
-            }
-        }
-        return null;
     }
 }

@@ -1,4 +1,4 @@
-package com.gbread.exeptions.tokenExceptions;
+package com.gbread.exceptions.tokenExceptions;
 
 public class IsNotTokenException extends TokenException{
     String uncorrectedWord;
