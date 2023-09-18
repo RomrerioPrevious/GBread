@@ -12,21 +12,22 @@ public record Token(TokenType type, String text, int position) {
     }
 
     public boolean isBinaryOperator(){
-        return isOperator(
+        return isType(
                 TokenTypeList.PLUS.tokenType,
-                TokenTypeList.MINUS.tokenType
+                TokenTypeList.MINUS.tokenType,
+                TokenTypeList.ASSIGN.tokenType
         );
     }
 
     public boolean isUnaryOperator(){
-        return isOperator(
+        return isType(
                 TokenTypeList.IF.tokenType,
                 TokenTypeList.ELSE.tokenType,
                 TokenTypeList.WHILE.tokenType
         );
     }
 
-    private boolean isOperator(TokenType... types){
+    public boolean isType(TokenType... types){
         for (TokenType type: types) {
             if (this.type == type){
                 return true;

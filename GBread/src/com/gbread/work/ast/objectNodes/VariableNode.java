@@ -1,6 +1,6 @@
-package com.gbread.work.AST.objectNodes;
+package com.gbread.work.ast.objectNodes;
 
-import com.gbread.work.AST.Node;
+import com.gbread.work.ast.Node;
 import com.gbread.work.tokens.Token;
 
 public class VariableNode extends Node {
@@ -8,5 +8,10 @@ public class VariableNode extends Node {
 
     public VariableNode(Token variable) {
         this.variable = variable;
+    }
+
+    @Override
+    public String toString() {
+        return variable.text();
     }
 }

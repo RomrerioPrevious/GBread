@@ -1,4 +1,4 @@
-package com.gbread.work.AST;
+package com.gbread.work.ast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,5 +8,12 @@ public class StatementNode extends Node{
 
     public void addNode(Node node){
         nodeList.add(node);
+    }
+
+    @Override
+    public String toString() {
+        return "StatementNode{" +
+                "nodeList=" + nodeList +
+                '}';
     }
 }

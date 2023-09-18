@@ -31,8 +31,11 @@ public class Lexer {
         if (position >= code.length() - 1)
             return false;
         String word = findNextWord();
-        Pattern pattern = Pattern.compile("[a-zA-z\\d={}();\s-]");
+        Pattern pattern = Pattern.compile("[a-zA-z\\d={}();\s\\-]");
         Matcher matcher = pattern.matcher(word);
+        if (word.equals("+")){
+            return true;
+        }
         return matcher.find();
     }
 
