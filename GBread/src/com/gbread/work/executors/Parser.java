@@ -33,9 +33,8 @@ public class Parser {
                 node.addNode(temp);
                 position++;
             }
-        }
-        catch (ArrayIndexOutOfBoundsException exception){
-            System.out.println(position);
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            System.out.println("Position: " + position);
         }
 
         return node;
@@ -52,24 +51,21 @@ public class Parser {
     }
 
     private Node findAndReturnBinaryNode() {
-        Token token = tokenArray[position];
+        Token token;
         Node node = null;
-        Node temp = null;
-        while (!token.isType(TokenTypeList.SEMICOLON.tokenType)) {
+        do {
             position++;
             token = tokenArray[position];
             if (token.isBinaryOperator()) {
-                if (node == null & temp == null) {
-                    node = binaryParser(token);
-                } else if (node == null) {
-                    node = binaryParser(token, temp);
-                } else {
+                if (node != null) {
                     node = binaryParser(token, node);
+                } else {
+                    node = binaryParser(token);
                 }
             } else if (token.isType(TokenTypeList.LPAR.tokenType)) {
-                temp = formulaParser();
+                node = formulaParser();
             }
-        }
+        } while (!tokenArray[position].isType(TokenTypeList.SEMICOLON.tokenType));
         return node;
     }
 
@@ -87,7 +83,7 @@ public class Parser {
         Node rightNode;
         if (iterationToken.isType(TokenTypeList.LPAR.tokenType)) {
             rightNode = formulaParser();
-        } else if (tokenArray[position + 1].isType(TokenTypeList.SEMICOLON.tokenType)){
+        } else if (tokenArray[position + 1].isType(TokenTypeList.SEMICOLON.tokenType)) {
             rightNode = createNodeByPosition(position);
         } else {
             rightNode = findAndReturnBinaryNode();
@@ -96,11 +92,11 @@ public class Parser {
     }
 
     private Node formulaParser() {
-        Token token = tokenArray[position];
+        Token token;
         position++;
         Node node = null;
         Node previousNode = null;
-        while (token.type() != TokenTypeList.RPAR.tokenType) {
+        do {
             token = tokenArray[position];
             if (token.type() == TokenTypeList.LPAR.tokenType) {
                 previousNode = formulaParser();
@@ -110,7 +106,7 @@ public class Parser {
                 previousNode = createNodeByPosition(position);
             }
             position++;
-        }
+        } while (token.type() != TokenTypeList.RPAR.tokenType);
         return node;
     }
 
