@@ -1,7 +1,7 @@
-package com.gbread.work.ast.operatorNodes;
+package com.gbread.executors.ast.operatorNodes;
 
-import com.gbread.work.ast.Node;
-import com.gbread.work.tokens.Token;
+import com.gbread.executors.ast.Node;
+import com.gbread.executors.tokens.Token;
 
 public class BinaryNode extends Node {
     Token operator;

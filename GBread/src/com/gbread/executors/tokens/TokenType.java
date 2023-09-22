@@ -1,4 +1,4 @@
-package com.gbread.work.tokens;
+package com.gbread.executors.tokens;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package com.gbread.work.tokens;
+package com.gbread.executors.tokens;
 
 public record Token(TokenType type, String text, int position) {
 
@@ -25,6 +25,14 @@ public record Token(TokenType type, String text, int position) {
                 TokenTypeList.ELSE.tokenType,
                 TokenTypeList.WHILE.tokenType
         );
+    }
+
+    public boolean isFinalOperator(){
+        return isType(
+                TokenTypeList.SEMICOLON.tokenType,
+                TokenTypeList.RPAR.tokenType,
+                TokenTypeList.RCUR.tokenType
+                );
     }
 
     public boolean isType(TokenType... types){

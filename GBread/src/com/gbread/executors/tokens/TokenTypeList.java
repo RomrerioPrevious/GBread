@@ -1,4 +1,4 @@
-package com.gbread.work.tokens;
+package com.gbread.executors.tokens;
 
 public enum TokenTypeList {
     IF(new TokenType("IF", "if")),

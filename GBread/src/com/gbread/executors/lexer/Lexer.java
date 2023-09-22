@@ -1,8 +1,8 @@
-package com.gbread.work.executors;
+package com.gbread.executors.lexer;
 
 import com.gbread.exceptions.tokenExceptions.IsNotTokenException;
-import com.gbread.work.tokens.Token;
-import com.gbread.work.tokens.TokenTypeList;
+import com.gbread.executors.tokens.Token;
+import com.gbread.executors.tokens.TokenTypeList;
 
 import java.util.LinkedList;
 import java.util.List;

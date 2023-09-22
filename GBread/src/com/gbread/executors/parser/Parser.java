@@ -1,13 +1,13 @@
-package com.gbread.work.executors;
+package com.gbread.executors.parser;
 
-import com.gbread.work.ast.*;
-import com.gbread.work.ast.StatementNode;
-import com.gbread.work.ast.objectNodes.NumberNode;
-import com.gbread.work.ast.objectNodes.VariableNode;
-import com.gbread.work.ast.operatorNodes.BinaryNode;
-import com.gbread.work.ast.operatorNodes.UnaryNode;
-import com.gbread.work.tokens.Token;
-import com.gbread.work.tokens.TokenTypeList;
+import com.gbread.executors.ast.*;
+import com.gbread.executors.ast.StatementNode;
+import com.gbread.executors.ast.objectNodes.NumberNode;
+import com.gbread.executors.ast.objectNodes.VariableNode;
+import com.gbread.executors.ast.operatorNodes.BinaryNode;
+import com.gbread.executors.ast.operatorNodes.UnaryNode;
+import com.gbread.executors.tokens.Token;
+import com.gbread.executors.tokens.TokenTypeList;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +33,7 @@ public class Parser {
                 node.addNode(temp);
                 position++;
             }
-        } catch (ArrayIndexOutOfBoundsException exception) {
+        } catch (ArrayIndexOutOfBoundsException exception) { //TODO create error handler
             System.out.println("Position: " + position);
         }
 
@@ -79,11 +79,10 @@ public class Parser {
 
     private Node binaryParser(Token token, Node leftNode) {
         position++;
-        Token iterationToken = tokenArray[position];
         Node rightNode;
-        if (iterationToken.isType(TokenTypeList.LPAR.tokenType)) {
+        if (tokenArray[position].isType(TokenTypeList.LPAR.tokenType)) {
             rightNode = formulaParser();
-        } else if (tokenArray[position + 1].isType(TokenTypeList.SEMICOLON.tokenType)) {
+        } else if (tokenArray[position + 1].isFinalOperator()) {
             rightNode = createNodeByPosition(position);
         } else {
             rightNode = findAndReturnBinaryNode();
@@ -95,18 +94,17 @@ public class Parser {
         Token token;
         position++;
         Node node = null;
-        Node previousNode = null;
         do {
             token = tokenArray[position];
-            if (token.type() == TokenTypeList.LPAR.tokenType) {
-                previousNode = formulaParser();
+            if (token.isType(TokenTypeList.LPAR.tokenType)) {
+                node = formulaParser();
             } else if (token.isBinaryOperator()) {
-                node = binaryParser(token, previousNode);
+                node = binaryParser(token, node);
             } else {
-                previousNode = createNodeByPosition(position);
+                node = createNodeByPosition(position);
             }
             position++;
-        } while (token.type() != TokenTypeList.RPAR.tokenType);
+        } while (!tokenArray[position].isType(TokenTypeList.RPAR.tokenType));
         return node;
     }
 

@@ -1,7 +1,7 @@
-package com.gbread.work.ast.objectNodes;
+package com.gbread.executors.ast.objectNodes;
 
-import com.gbread.work.ast.Node;
-import com.gbread.work.tokens.Token;
+import com.gbread.executors.ast.Node;
+import com.gbread.executors.tokens.Token;
 
 public class VariableNode extends Node {
     private Token variable;
