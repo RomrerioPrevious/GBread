@@ -43,4 +43,13 @@ public record Token(TokenType type, String text, int position) {
         }
         return false;
     }
+
+    public boolean isType(TokenTypeList... types){
+        for (TokenTypeList type: types) {
+            if (this.type == type.tokenType){
+                return true;
+            }
+        }
+        return false;
+    }
 }
