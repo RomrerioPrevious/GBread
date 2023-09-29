@@ -13,35 +13,26 @@ public record Token(TokenType type, String text, int position) {
 
     public boolean isBinaryOperator(){
         return isType(
-                TokenTypeList.PLUS.tokenType,
-                TokenTypeList.MINUS.tokenType,
-                TokenTypeList.ASSIGN.tokenType
+                TokenTypeList.PLUS,
+                TokenTypeList.MINUS,
+                TokenTypeList.ASSIGN
         );
     }
 
     public boolean isUnaryOperator(){
         return isType(
-                TokenTypeList.IF.tokenType,
-                TokenTypeList.ELSE.tokenType,
-                TokenTypeList.WHILE.tokenType
+                TokenTypeList.IF,
+                TokenTypeList.ELSE,
+                TokenTypeList.WHILE
         );
     }
 
     public boolean isFinalOperator(){
         return isType(
-                TokenTypeList.SEMICOLON.tokenType,
-                TokenTypeList.RPAR.tokenType,
-                TokenTypeList.RCUR.tokenType
+                TokenTypeList.SEMICOLON,
+                TokenTypeList.RPAR,
+                TokenTypeList.RCUR
                 );
-    }
-
-    public boolean isType(TokenType... types){
-        for (TokenType type: types) {
-            if (this.type == type){
-                return true;
-            }
-        }
-        return false;
     }
 
     public boolean isType(TokenTypeList... types){

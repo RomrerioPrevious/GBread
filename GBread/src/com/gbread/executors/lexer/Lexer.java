@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 public class Lexer {
     private final String code;
     private int position;
-    private int iterator;
     List<Token> tokenList = new LinkedList<>();
 
     public Lexer(String code) {
@@ -28,7 +27,7 @@ public class Lexer {
     }
 
     public boolean nextToken(){
-        if (position >= code.length() - 1)
+        if (position >= code.length())
             return false;
         String word = findNextWord();
         Pattern pattern = Pattern.compile("[a-zA-z\\d={}();\s\\-]");
@@ -69,14 +68,15 @@ public class Lexer {
 
     private String findNextWord(){
         if (code.charAt(position) == " ".charAt(0)){
-            if (iterator != position + 1)
-                iterator++;
             return " ";
         }
         StringBuilder result = new StringBuilder();
-        iterator = position;
-        while (code.charAt(iterator) != " ".charAt(0) & iterator != code.length() - 1){
+        int iterator = position;
+        while (code.charAt(iterator) != " ".charAt(0)){
             result.append(code.charAt(iterator));
+            if (iterator == code.length() - 1){
+                break;
+            }
             iterator++;
         }
         return result.toString();
