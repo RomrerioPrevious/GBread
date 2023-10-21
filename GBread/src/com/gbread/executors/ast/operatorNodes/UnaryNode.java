@@ -3,20 +3,26 @@ package com.gbread.executors.ast.operatorNodes;
 import com.gbread.executors.ast.Node;
 import com.gbread.executors.tokens.Token;
 
+import java.util.Arrays;
+
 public class UnaryNode extends Node {
     Token operator;
-    Node nextNode;
+    Node[] variablesOrConditionsNode;
+
+    Node functionNode;
 
     @Override
     public String toString() {
         return "UnaryNode{" +
                 "operator=" + operator +
-                ", nextNode=" + nextNode +
+                ", variablesOrConditionsNode=" + Arrays.toString(variablesOrConditionsNode) +
+                ", functionNode=" + functionNode +
                 '}';
     }
 
-    public UnaryNode(Token operator, Node nextNode) {
+    public UnaryNode(Token operator, Node functionNode, Node[] variablesOrConditionsNode) {
         this.operator = operator;
-        this.nextNode = nextNode;
+        this.functionNode = functionNode;
+        this.variablesOrConditionsNode = variablesOrConditionsNode;
     }
 }

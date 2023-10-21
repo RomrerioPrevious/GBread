@@ -15,35 +15,68 @@ public class Parser {
         this.tokenArray = tokenArray;
     }
 
+    public Parser(Token[] tokenArray, int position) {
+        this.tokenArray = tokenArray;
+        this.position = position;
+    }
+
     public Node parseCode() {
         StatementNode node = new StatementNode();
-        Node temp;
+        Node codeStringNode;
         while (position < tokenArray.length) {
-            temp = parseBlock();
-            if (temp == null) {
+            codeStringNode = parseCodeString();
+            if (codeStringNode == null) {
                 throw new RuntimeException(); //TODO create new exception
             }
-            node.addNode(temp);
+            node.addNode(codeStringNode);
         }
         return node;
     }
 
-    private Node parseBlock() {
+    private Node parseCodeString() {
         Token[] codeString = findCodeString();
         if (codeString[0].isUnaryOperator()) {
-//            return unaryParser(); TODO Create unary parser
+            UnaryParser parser = new UnaryParser(codeString);
+            return parser.parseUnaryNode();
         }
         BinaryParser parser = new BinaryParser(codeString);
-        return parser.findAndReturnBinaryNode();
+        return parser.parseBinaryNode();
     }
 
     private Token[] findCodeString() {
+        if (tokenArray[position].isUnaryOperator()) {
+            return findUnaryCodeString();
+        }
+        return findBinaryCodeString();
+    }
+
+    private Token[] findBinaryCodeString(){
         List<Token> tokenList = new ArrayList<>();
         while (!tokenArray[position].isType(TokenTypeList.SEMICOLON)) {
             tokenList.add(tokenArray[position]);
             position++;
         }
         tokenList.add(tokenArray[position]);
+        position++;
+        return tokenList.toArray(Token[]::new);
+    }
+
+    private Token[] findUnaryCodeString(){
+        List<Token> tokenList = new ArrayList<>();
+        int curlyBraceCounter = 1;
+        while (!tokenArray[position].isType(TokenTypeList.LEFT_CUR)){
+            tokenList.add(tokenArray[position]);
+            position++;
+        }
+        while (curlyBraceCounter != 0){
+            tokenList.add(tokenArray[position]);
+            position++;
+            if (tokenArray[position].isType(TokenTypeList.LEFT_CUR)){
+                curlyBraceCounter++;
+            } else if (tokenArray[position].isType(TokenTypeList.RIGHT_CUR)) {
+                curlyBraceCounter--;
+            }
+        }
         position++;
         return tokenList.toArray(Token[]::new);
     }

@@ -14,7 +14,7 @@ public class BinaryParser {
         this.tokenArray = tokenArray;
     }
 
-    public Node findAndReturnBinaryNode() {
+    public Node parseBinaryNode() {
         Token token;
         Node node = null;
         do {
@@ -26,7 +26,7 @@ public class BinaryParser {
                 } else {
                     node = binaryParser(token);
                 }
-            } else if (token.isType(TokenTypeList.LPAR)) {
+            } else if (token.isType(TokenTypeList.LEFT_PAR)) {
                 node = formulaParser();
             }
         } while (!tokenArray[position].isType(TokenTypeList.SEMICOLON));
@@ -40,12 +40,12 @@ public class BinaryParser {
     private Node binaryParser(Token token, Node leftNode) {
         position++;
         Node rightNode;
-        if (tokenArray[position].isType(TokenTypeList.LPAR)) {
+        if (tokenArray[position].isType(TokenTypeList.LEFT_PAR)) {
             rightNode = formulaParser();
         } else if (tokenArray[position + 1].isFinalOperator()) {
             rightNode = createNodeByPosition(position);
         } else {
-            rightNode = findAndReturnBinaryNode();
+            rightNode = parseBinaryNode();
         }
         return new BinaryNode(token, leftNode, rightNode);
     }
@@ -56,7 +56,7 @@ public class BinaryParser {
         Node node = null;
         do {
             token = tokenArray[position];
-            if (token.isType(TokenTypeList.LPAR)) {
+            if (token.isType(TokenTypeList.LEFT_PAR)) {
                 node = formulaParser();
             } else if (token.isBinaryOperator()) {
                 node = binaryParser(token, node);
@@ -64,17 +64,15 @@ public class BinaryParser {
                 node = createNodeByPosition(position);
             }
             position++;
-        } while (!tokenArray[position].isType(TokenTypeList.RPAR));
+        } while (!tokenArray[position].isType(TokenTypeList.RIGHT_PAR));
         return node;
     }
 
     private Node createNodeByPosition(int position) {
         Token token = tokenArray[position];
-        if (token.isType(TokenTypeList.VARIABLE)) {
-            return new VariableNode(token);
-        }
-        if (token.isType(TokenTypeList.NUMBER)) {
-            return new NumberNode(token);
+        Node node = token.createNodeFromToken();
+        if (node != null){
+            return node;
         }
         throw new RuntimeException();
     }
