@@ -25,7 +25,11 @@ public record Token(TokenType type, String text, int position) {
                 TokenTypeList.MINUS,
                 TokenTypeList.ASSIGN,
                 TokenTypeList.EQUALITY,
-                TokenTypeList.NOT_EQUALITY
+                TokenTypeList.NOT_EQUALITY,
+                TokenTypeList.LESS,
+                TokenTypeList.LESS_AND_EQUALITY,
+                TokenTypeList.MORE,
+                TokenTypeList.MORE_AND_EQUALITY
         );
     }
 

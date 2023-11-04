@@ -8,6 +8,12 @@ public class BinaryNode extends Node {
     Node leftNode;
     Node rightNode;
 
+    public BinaryNode(Token operator, Node leftNode, Node rightNode) {
+        this.operator = operator;
+        this.leftNode = leftNode;
+        this.rightNode = rightNode;
+    }
+
     @Override
     public String toString() {
         return "BinaryNode{" +
@@ -15,11 +21,5 @@ public class BinaryNode extends Node {
                 ", leftNode=" + leftNode +
                 ", rightNode=" + rightNode +
                 '}';
-    }
-
-    public BinaryNode(Token operator, Node leftNode, Node rightNode) {
-        this.operator = operator;
-        this.leftNode = leftNode;
-        this.rightNode = rightNode;
     }
 }

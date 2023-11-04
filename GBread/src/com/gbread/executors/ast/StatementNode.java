@@ -16,4 +16,8 @@ public class StatementNode extends Node{
                 "nodeList=" + nodeList +
                 '}';
     }
+
+    public List<Node> getNodeList() {
+        return nodeList;
+    }
 }

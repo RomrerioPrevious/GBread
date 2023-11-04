@@ -11,6 +11,16 @@ public class UnaryNode extends Node {
 
     Node functionNode;
 
+    public UnaryNode(Token operator, Node functionNode, Node[] variablesOrConditionsNode) {
+        this.operator = operator;
+        this.functionNode = functionNode;
+        this.variablesOrConditionsNode = variablesOrConditionsNode;
+    }
+
+    public Token getOperator() {
+        return operator;
+    }
+
     @Override
     public String toString() {
         return "UnaryNode{" +
@@ -18,11 +28,5 @@ public class UnaryNode extends Node {
                 ", variablesOrConditionsNode=" + Arrays.toString(variablesOrConditionsNode) +
                 ", functionNode=" + functionNode +
                 '}';
-    }
-
-    public UnaryNode(Token operator, Node functionNode, Node[] variablesOrConditionsNode) {
-        this.operator = operator;
-        this.functionNode = functionNode;
-        this.variablesOrConditionsNode = variablesOrConditionsNode;
     }
 }
