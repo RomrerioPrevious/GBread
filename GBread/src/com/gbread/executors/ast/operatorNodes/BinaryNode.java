@@ -3,10 +3,10 @@ package com.gbread.executors.ast.operatorNodes;
 import com.gbread.executors.ast.Node;
 import com.gbread.executors.tokens.Token;
 
-public class BinaryNode extends Node {
-    Token operator;
-    Node leftNode;
-    Node rightNode;
+public class BinaryNode implements Node {
+    public Token operator;
+    public Node leftNode;
+    public Node rightNode;
 
     public BinaryNode(Token operator, Node leftNode, Node rightNode) {
         this.operator = operator;

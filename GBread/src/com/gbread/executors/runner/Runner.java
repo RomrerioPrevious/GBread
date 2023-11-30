@@ -3,7 +3,6 @@ package com.gbread.executors.runner;
 import com.gbread.executors.ast.Node;
 import com.gbread.executors.ast.*;
 import com.gbread.executors.ast.operatorNodes.*;
-import com.gbread.executors.ast.objectNodes.*;
 import com.gbread.executors.tokens.TokenTypeList;
 
 import java.util.ArrayList;
@@ -16,10 +15,16 @@ public class Runner {
 
     public Runner(StatementNode ast) {
         this.ast = ast;
-        this.functions = findFunctions();
+        this.functions = getAllFunctions();
     }
 
-    private Node[] findFunctions(){
+    private Node[] getAllFunctions(){
+        List<Node> functions = findFunctionsInCode();
+        functions.addAll(importLibraries());
+        return functions.toArray(new Node[0]);
+    }
+
+    private List<Node> findFunctionsInCode(){
         List<Node> functionList = new ArrayList<>();
         for (Node i : openStatementNode(ast)) {
             if (i instanceof UnaryNode) {
@@ -28,7 +33,13 @@ public class Runner {
                 }
             }
         }
-        return functionList.toArray(new Node[0]);
+        return functionList;
+    }
+
+    private List<Node> importLibraries(){
+        List<Node> functions = new ArrayList<>();
+        functions.addAll(FunctionsList.functions());
+        return functions;
     }
 
     public void run(){

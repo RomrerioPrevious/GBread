@@ -3,7 +3,7 @@ package com.gbread.executors.ast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatementNode extends Node{
+public class StatementNode implements Node {
     List<Node> nodeList = new ArrayList<>();
 
     public void addNode(Node node){

@@ -50,6 +50,19 @@ public record Token(TokenType type, String text, int position) {
                 );
     }
 
+    public boolean isLogicalOperator() {
+        return isType(
+                TokenTypeList.TRUE,
+                TokenTypeList.FALSE,
+                TokenTypeList.EQUALITY,
+                TokenTypeList.NOT_EQUALITY,
+                TokenTypeList.MORE,
+                TokenTypeList.MORE_AND_EQUALITY,
+                TokenTypeList.LESS,
+                TokenTypeList.LESS_AND_EQUALITY
+        );
+    }
+
     public boolean isType(TokenTypeList... types){
         for (TokenTypeList type: types) {
             if (this.type == type.tokenType){

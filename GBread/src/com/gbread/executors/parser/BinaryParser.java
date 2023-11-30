@@ -13,7 +13,7 @@ public class BinaryParser {
         this.tokenArray = tokenArray;
     }
 
-    public Node parseBinaryNode() {
+    public BinaryNode parseBinaryNode() {
         Token token;
         Node node = null;
         do {
@@ -29,7 +29,7 @@ public class BinaryParser {
                 node = formulaParser();
             }
         } while (!tokenArray[position].isType(TokenTypeList.SEMICOLON));
-        return node;
+        return (BinaryNode) node;
     }
 
     private Node binaryParser(Token token) {

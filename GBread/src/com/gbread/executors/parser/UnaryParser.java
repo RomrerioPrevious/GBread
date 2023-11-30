@@ -20,7 +20,7 @@ public class UnaryParser {
         this.tokenArray = tokenArray;
     }
 
-    public Node parseUnaryNode() {
+    public UnaryNode parseUnaryNode() {
         List<Node> variableNode = new ArrayList<>();
         StatementNode functionNode;
         Node node;

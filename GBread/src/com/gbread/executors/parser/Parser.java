@@ -38,9 +38,14 @@ public class Parser {
         if (codeString[0].isUnaryOperator()) {
             UnaryParser parser = new UnaryParser(codeString);
             return parser.parseUnaryNode();
+        } else if (codeString[0].isType(TokenTypeList.FUNCTION_USED)) {
+            FunctionParser parser = new FunctionParser(codeString);
+            return parser.parseFunction();
         }
-        BinaryParser parser = new BinaryParser(codeString);
-        return parser.parseBinaryNode();
+        else {
+            BinaryParser parser = new BinaryParser(codeString);
+            return parser.parseBinaryNode();
+        }
     }
 
     private Token[] findCodeString() {

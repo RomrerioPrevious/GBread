@@ -1,4 +1,4 @@
 package com.gbread.executors.ast;
 
-public abstract class Node {
+public interface Node {
 }
