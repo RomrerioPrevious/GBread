@@ -3,6 +3,7 @@ package com.gbread.executors.tokens;
 import com.gbread.executors.ast.Node;
 import com.gbread.executors.ast.objectNodes.BooleanNode;
 import com.gbread.executors.ast.objectNodes.NumberNode;
+import com.gbread.executors.ast.objectNodes.StringNode;
 import com.gbread.executors.ast.objectNodes.VariableNode;
 
 public record Token(TokenType type, String text, int position) {
@@ -15,6 +16,9 @@ public record Token(TokenType type, String text, int position) {
         }
         if (this.isType(TokenTypeList.TRUE, TokenTypeList.FALSE)){
             return new BooleanNode(this);
+        }
+        if (this.isType(TokenTypeList.STRING)){
+            return new StringNode(this);
         }
         return null;
     }

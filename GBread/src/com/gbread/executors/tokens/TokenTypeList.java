@@ -2,10 +2,12 @@ package com.gbread.executors.tokens;
 
 public enum TokenTypeList {
     IF(new TokenType("IF", "if")),
+    ELIF(new TokenType("ELIF", "elif")),
     ELSE(new TokenType("ELSE", "else")),
     WHILE(new TokenType("WHILE", "while")),
     TRUE(new TokenType("TRUE", "true")),
     FALSE(new TokenType("FALSE", "false")),
+    STRING(new TokenType("STRING", "\".*\"")),
     FUNCTION(new TokenType("FUNCTION", "func")),
     NUMBER(new TokenType("NUMBER", "\\d+")),
     EQUALITY(new TokenType("EQUALITY", "==")),
