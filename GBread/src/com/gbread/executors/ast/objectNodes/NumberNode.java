@@ -16,11 +16,11 @@ public class NumberNode implements ObjectNode {
 
     @Override
     public Object returnValue() {
-        return null;
+        return Integer.parseInt(number.text());
     }
 
     @Override
     public String returnStringValue() {
-        return null;
+        return number.text();
     }
 }

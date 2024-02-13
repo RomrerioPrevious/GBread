@@ -1,6 +1,7 @@
 package com.gbread.executors.ast.objectNodes;
 
 import com.gbread.executors.tokens.Token;
+import com.gbread.executors.tokens.TokenTypeList;
 
 import java.util.Objects;
 
@@ -9,6 +10,14 @@ public class BooleanNode implements ObjectNode {
 
     public BooleanNode(Token bool) {
         this.bool = bool;
+    }
+
+    public BooleanNode(boolean bool) {
+        if (bool) {
+            this.bool = new Token(TokenTypeList.TRUE.tokenType, "true", 0);
+        } else {
+            this.bool = new Token(TokenTypeList.FALSE.tokenType, "false", 0);
+        }
     }
 
     @Override

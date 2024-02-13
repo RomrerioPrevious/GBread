@@ -23,18 +23,29 @@ public class UnaryParser {
     public UnaryNode parseUnaryNode() {
         List<Node> variableNode = new ArrayList<>();
         StatementNode functionNode;
+        Parser parser;
         Node node;
         if (!tokenArray[0].isType(TokenTypeList.ELSE)){
-            while(!tokenArray[position].isType(TokenTypeList.LEFT_CUR)){
-                node = tokenArray[position].createNodeFromToken();
-                variableNode.add(node);
+            List<Token> tokenList = new ArrayList<>();
+            while(!tokenArray[position].isType(TokenTypeList.RIGHT_PAR)){
+                tokenList.add(tokenArray[position]);
                 position++;
             }
-            variableNode.remove(position - 3);
-            position++;
+            tokenList.add(new Token(TokenTypeList.SEMICOLON.tokenType, ";", tokenList.size()));
+            parser = new Parser(tokenList.toArray(tokenList.toArray(new Token[0])));
+            variableNode.add(parser.parseCode());
         }
-        Parser parser = new Parser(tokenArray, position);
+        parser = new Parser(tokenArray, position + 2);
         functionNode = (StatementNode) parser.parseCode();
         return new UnaryNode(tokenArray[0], functionNode, variableNode.toArray(Node[]::new));
     }
 }
+/*
+while(!tokenArray[position].isType(TokenTypeList.LEFT_CUR)){
+        node = tokenArray[position].createNodeFromToken();
+        variableNode.add(node);
+        position++;
+        }
+        variableNode.remove(position - 3);
+        position++;
+*/

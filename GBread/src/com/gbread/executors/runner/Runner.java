@@ -2,18 +2,21 @@ package com.gbread.executors.runner;
 
 import com.gbread.executors.ast.Node;
 import com.gbread.executors.ast.*;
-import com.gbread.executors.ast.objectNodes.VariableNode;
+import com.gbread.executors.ast.objectNodes.BooleanNode;
 import com.gbread.executors.ast.operatorNodes.*;
 import com.gbread.executors.runner.libraries.StandardLibrary;
+import com.gbread.executors.tokens.Token;
 import com.gbread.executors.tokens.TokenTypeList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Runner {
+    public Map<String, Node> variables = new HashMap<>();
     Node ast;
     Node[] functions;
-    List<VariableNode> variables = new ArrayList<>();
     Node[] sequence;
 
     public Runner(Node ast) {
@@ -58,6 +61,7 @@ public class Runner {
     }
 
     public Node run() {
+        Node returnNode = null;
         sequence = openNode(ast);
         for (int i = 0; i != sequence.length; i++) {
             Node node = sequence[i];
@@ -72,15 +76,23 @@ public class Runner {
                     case ("while") -> UnaryRunner.gWhile((UnaryNode) node, this);
                 }
             } else if (node instanceof BinaryNode) {
-
+                String nameOfOperator = ((BinaryNode) node).operator.text();
+                switch (nameOfOperator) {
+                    case ("EQUALITY") -> {
+                        returnNode = new BooleanNode(BinaryRunner.equality((BinaryNode) node, this));
+                    }
+                    case ("NOT_EQUALITY") -> {
+                        returnNode = new BooleanNode(!BinaryRunner.equality((BinaryNode) node, this));
+                    }
+                }
             } else {
 
             }
         }
-        return null;
+        return returnNode;
     }
 
-    public UnaryNode[] getIfBlock(UnaryNode node, int i){
+    public UnaryNode[] getIfBlock(UnaryNode node, int i) {
         List<UnaryNode> ifNodes = new ArrayList<>();
         ifNodes.add(node);
         while (true) {
@@ -102,9 +114,5 @@ public class Runner {
             return ((StatementNode) node).getNodeList().toArray(Node[]::new);
         else
             return new Node[]{node};
-    }
-
-    public List<VariableNode> getVariables() {
-        return variables;
     }
 }

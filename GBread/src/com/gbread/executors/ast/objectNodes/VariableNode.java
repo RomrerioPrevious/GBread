@@ -5,7 +5,7 @@ import com.gbread.executors.tokens.Token;
 
 
 public class VariableNode implements ObjectNode {
-    private final String name;
+    public final String name;
     public ObjectNode value;
 
     public VariableNode(Token variableToken) {
