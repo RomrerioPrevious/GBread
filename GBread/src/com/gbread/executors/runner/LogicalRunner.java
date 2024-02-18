@@ -1,5 +1,6 @@
 package com.gbread.executors.runner;
 
+import com.gbread.exceptions.SyntaxException;
 import com.gbread.executors.ast.Node;
 import com.gbread.executors.ast.objectNodes.ObjectNode;
 import com.gbread.executors.ast.operatorNodes.BinaryNode;
@@ -38,7 +39,7 @@ public class LogicalRunner {
         return logicalExpressions;
     }
 
-    public static boolean parseLogical(Node node) {
+    public static boolean parseLogical(Node node, Runner previousRunner) {
         if (node instanceof ObjectNode) {
             Object value = ((ObjectNode) node).returnValue();
             if (value instanceof Boolean) {
@@ -48,13 +49,13 @@ public class LogicalRunner {
             } else if (value instanceof String) {
                 return !((String) value).equals("");
             } else {
-                throw new RuntimeException(); // TODO
+                throw new SyntaxException();
             }
         } else if (node instanceof BinaryNode) {
-            LogicalRunner logicalRunner = new LogicalRunner((BinaryNode) node);
-            return logicalRunner.parseLogicallExpressions();
+            Runner runner = new Runner(node, previousRunner);
+            return parseLogical(runner.run(), previousRunner);
         } else {
-            throw new RuntimeException();
+            throw new SyntaxException();
         }
     }
 }

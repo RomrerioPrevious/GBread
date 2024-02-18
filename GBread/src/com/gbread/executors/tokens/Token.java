@@ -1,10 +1,7 @@
 package com.gbread.executors.tokens;
 
 import com.gbread.executors.ast.Node;
-import com.gbread.executors.ast.objectNodes.BooleanNode;
-import com.gbread.executors.ast.objectNodes.NumberNode;
-import com.gbread.executors.ast.objectNodes.StringNode;
-import com.gbread.executors.ast.objectNodes.VariableNode;
+import com.gbread.executors.ast.objectNodes.*;
 
 public record Token(TokenType type, String text, int position) {
     public Node createNodeFromToken(){
@@ -17,6 +14,9 @@ public record Token(TokenType type, String text, int position) {
         if (this.isType(TokenTypeList.TRUE, TokenTypeList.FALSE)){
             return new BooleanNode(this);
         }
+        if (this.isType(TokenTypeList.FLOAT)) {
+            return new FloatNode(this);
+        }
         if (this.isType(TokenTypeList.STRING)){
             return new StringNode(this);
         }
@@ -27,6 +27,8 @@ public record Token(TokenType type, String text, int position) {
         return isType(
                 TokenTypeList.PLUS,
                 TokenTypeList.MINUS,
+                TokenTypeList.ASTERISK,
+                TokenTypeList.SLASH,
                 TokenTypeList.ASSIGN,
                 TokenTypeList.EQUALITY,
                 TokenTypeList.NOT_EQUALITY,

@@ -20,27 +20,27 @@ public class UnaryRunner {
         }
     }
 
-    public static boolean gIf(UnaryNode node, Runner previous) {
+    public static boolean gIf(UnaryNode node, Runner previousRunner) {
         Node[] variables = node.getVariableNodes();
         boolean result = false;
         for (Node i : variables)
-            result = LogicalRunner.parseLogical(i);
+            result = LogicalRunner.parseLogical(i, previousRunner);
         Runner runner;
         if (result) {
-            runner = new Runner(node.getFunctionNode(), previous);
+            runner = new Runner(node.getFunctionNode(), previousRunner);
             runner.run();
             return true;
         }
         return false;
     }
 
-    public static void gWhile(UnaryNode node, Runner previous) {
+    public static void gWhile(UnaryNode node, Runner previousRunner) {
         Node[] condition = node.getVariableNodes();
-        Runner runner = new Runner(node.getFunctionNode(), previous);
+        Runner runner = new Runner(node.getFunctionNode(), previousRunner);
         boolean result = false;
         while (true) {
             for (Node i : condition) {
-                result = LogicalRunner.parseLogical(i);
+                result = LogicalRunner.parseLogical(i, previousRunner);
             }
             if (result) break;
             runner.run();

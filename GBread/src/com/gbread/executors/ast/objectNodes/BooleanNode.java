@@ -6,32 +6,28 @@ import com.gbread.executors.tokens.TokenTypeList;
 import java.util.Objects;
 
 public class BooleanNode implements ObjectNode {
-    public Token bool;
+    public boolean bool;
 
     public BooleanNode(Token bool) {
-        this.bool = bool;
+        this.bool = Boolean.parseBoolean(bool.text());
     }
 
     public BooleanNode(boolean bool) {
-        if (bool) {
-            this.bool = new Token(TokenTypeList.TRUE.tokenType, "true", 0);
-        } else {
-            this.bool = new Token(TokenTypeList.FALSE.tokenType, "false", 0);
-        }
+        this.bool = bool;
     }
 
     @Override
     public Boolean returnValue() {
-        return Objects.equals(bool.text(), "true");
+        return bool;
     }
 
     @Override
     public String returnStringValue() {
-        return null;
+        return bool + "";
     }
 
     @Override
     public String toString() {
-        return bool.text();
+        return bool + "";
     }
 }

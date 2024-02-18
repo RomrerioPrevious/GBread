@@ -3,24 +3,26 @@ package com.gbread.executors.ast.objectNodes;
 import com.gbread.executors.tokens.Token;
 
 public class NumberNode implements ObjectNode {
-    private Token number;
+    private int number;
 
     public NumberNode(Token number) {
-        this.number = number;
+        this.number = Integer.parseInt(number.text());
     }
 
-    @Override
-    public String toString() {
-        return number.text();
-    }
+    public NumberNode(int number) {this.number = number;}
 
     @Override
     public Object returnValue() {
-        return Integer.parseInt(number.text());
+        return number;
     }
 
     @Override
     public String returnStringValue() {
-        return number.text();
+        return number + "";
+    }
+
+    @Override
+    public String toString() {
+        return number + "";
     }
 }

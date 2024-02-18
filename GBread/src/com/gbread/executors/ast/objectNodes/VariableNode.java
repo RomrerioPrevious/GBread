@@ -1,6 +1,5 @@
 package com.gbread.executors.ast.objectNodes;
 
-import com.gbread.executors.ast.objectNodes.ObjectNode;
 import com.gbread.executors.tokens.Token;
 
 
@@ -13,17 +12,17 @@ public class VariableNode implements ObjectNode {
     }
 
     @Override
-    public String toString() {
-        return name;
-    }
-
-    @Override
     public Object returnValue() {
-        return null;
+        return value.returnValue();
     }
 
     @Override
     public String returnStringValue() {
-        return null;
+        return value.returnStringValue();
+    }
+
+    @Override
+    public String toString() {
+        return name + "=" + value;
     }
 }

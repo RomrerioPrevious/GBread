@@ -20,7 +20,7 @@ public class Parser {
         this.position = position;
     }
 
-    public Node parseCode() {
+    public StatementNode parseCode() {
         StatementNode node = new StatementNode();
         Node codeStringNode;
         while (position < tokenArray.length) {
@@ -38,7 +38,7 @@ public class Parser {
         if (codeString[0].isUnaryOperator()) {
             UnaryParser parser = new UnaryParser(codeString);
             return parser.parseUnaryNode();
-        } else if (codeString[0].isBinaryOperator()){
+        } else if (codeString[1].isBinaryOperator()){
             BinaryParser parser = new BinaryParser(codeString);
             return parser.parseBinaryNode();
         }else if (codeString[0].isType(TokenTypeList.FUNCTION_USED)) {

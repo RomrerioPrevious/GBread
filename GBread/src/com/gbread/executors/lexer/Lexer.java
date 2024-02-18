@@ -32,7 +32,7 @@ public class Lexer {
         String word = findNextWord();
         Pattern pattern = Pattern.compile("[a-zA-z\\d={}();\s\\-]");
         Matcher matcher = pattern.matcher(word);
-        if (word.equals("+")){
+        if (word.equals("+") || word.equals("/") || word.equals("*") || word.equals("<") || word.equals(">") || word.equals("<=") || word.equals(">=")) {
             return true;
         }
         return matcher.find();
