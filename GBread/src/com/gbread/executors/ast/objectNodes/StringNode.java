@@ -6,7 +6,10 @@ public class StringNode implements ObjectNode {
     public String string;
 
     public StringNode(Token string) {
-        this.string = string.toString();
+        StringBuilder stringBuilder = new StringBuilder(string.text());
+        stringBuilder.delete(0, 1);
+        stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
+        this.string = stringBuilder.toString();
     }
 
     public StringNode(String string){

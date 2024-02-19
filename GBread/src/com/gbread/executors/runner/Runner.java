@@ -14,8 +14,8 @@ import java.util.Map;
 
 public class Runner {
     public Map<String, Node> variables = new HashMap<>();
+    Map<String, FunctionNode> functions;
     Node ast;
-    Node[] functions;
     Node[] sequence;
 
     public Runner(Node ast) {
@@ -29,33 +29,31 @@ public class Runner {
         this.variables = runner.variables;
     }
 
-    private Node[] getAllFunctions() {
-        List<Node> functions = findFunctionsInCode();
-        functions.addAll(importLibraries());
-        return functions.toArray(new Node[0]);
+    private Map<String, FunctionNode> getAllFunctions() {
+        Map<String, FunctionNode> functions = findFunctionsInCode();
+        functions.putAll(importLibraries());
+        return functions;
     }
 
-    private Node[] getAllFunctions(Runner runner) {
-        List<Node> functions = new ArrayList<>(List.of(runner.functions));
-        functions.addAll(importLibraries());
-        return functions.toArray(new Node[0]);
+    private Map<String, FunctionNode> getAllFunctions(Runner runner) {
+        Map<String, FunctionNode> functions = new HashMap<>(runner.functions);
+        functions.putAll(importLibraries());
+        return functions;
     }
 
-    private List<Node> findFunctionsInCode() {
-        List<Node> functionList = new ArrayList<>();
+    private Map<String, FunctionNode> findFunctionsInCode() {
+        Map<String, FunctionNode> functionList = new HashMap<>();
         for (Node i : openNode(ast)) {
             if (i instanceof UnaryNode) {
                 if (((UnaryNode) i).getOperator().isType(TokenTypeList.FUNCTION)) {
-                    functionList.add(i);
                 }
             }
         }
         return functionList;
     }
 
-    private List<Node> importLibraries() {
-        List<Node> functions = new ArrayList<>();
-        functions.addAll(StandardLibrary.functions());
+    private Map<String, FunctionNode> importLibraries() {
+        Map<String, FunctionNode> functions = StandardLibrary.functions(); // TODO make import
         return functions;
     }
 
@@ -92,8 +90,9 @@ public class Runner {
                 }
             } else if (node instanceof ObjectNode){
                 returnNode = node;
-            } else {
-
+            } else if (node instanceof ExecutableFunctionNode) {
+                FunctionNode function = functions.get(((ExecutableFunctionNode) node).name);
+                function.run(this, ((ExecutableFunctionNode) node).variableNodes);
             }
         }
         return returnNode;

@@ -1,7 +1,6 @@
 package com.gbread.executors.parser;
 
 import com.gbread.executors.ast.Node;
-import com.gbread.executors.ast.objectNodes.ObjectNode;
 import com.gbread.executors.ast.operatorNodes.ExecutableFunctionNode;
 import com.gbread.executors.tokens.Token;
 
@@ -24,8 +23,7 @@ public class FunctionParser {
             }
         }
         token = deletePar(tokenArray[0]);
-        ExecutableFunctionNode functionNode = new ExecutableFunctionNode(token,
-                                                                        nodes.toArray(new Node[0]));
+        ExecutableFunctionNode functionNode = new ExecutableFunctionNode(token.text(), nodes.toArray(new Node[0]), null);
         return functionNode;
     }
 

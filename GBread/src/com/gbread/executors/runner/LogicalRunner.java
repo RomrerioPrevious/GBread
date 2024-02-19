@@ -4,14 +4,8 @@ import com.gbread.exceptions.SyntaxException;
 import com.gbread.executors.ast.Node;
 import com.gbread.executors.ast.objectNodes.ObjectNode;
 import com.gbread.executors.ast.operatorNodes.BinaryNode;
-import com.gbread.executors.ast.operatorNodes.ReservedFunctionNode;
 import com.gbread.executors.ast.operatorNodes.UnaryNode;
-import com.gbread.executors.tokens.Token;
-import com.gbread.executors.tokens.TokenType;
 import com.gbread.executors.tokens.TokenTypeList;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class LogicalRunner {
     private BinaryNode node;
