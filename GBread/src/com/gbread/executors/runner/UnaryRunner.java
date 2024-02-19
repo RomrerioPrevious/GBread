@@ -50,7 +50,7 @@ public class UnaryRunner {
             for (Node i : condition) {
                 result = LogicalRunner.parseLogical(i, previousRunner);
             }
-            if (result) break;
+            if (!result) break;
             runner.run();
         }
     }
