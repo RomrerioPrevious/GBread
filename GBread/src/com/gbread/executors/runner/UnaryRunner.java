@@ -1,8 +1,16 @@
 package com.gbread.executors.runner;
 
+import com.gbread.exceptions.SyntaxException;
 import com.gbread.executors.ast.Node;
+import com.gbread.executors.ast.objectNodes.BooleanNode;
+import com.gbread.executors.ast.objectNodes.ObjectNode;
+import com.gbread.executors.ast.objectNodes.VariableNode;
+import com.gbread.executors.ast.operatorNodes.BinaryNode;
+import com.gbread.executors.ast.operatorNodes.ExecutableFunctionNode;
 import com.gbread.executors.ast.operatorNodes.UnaryNode;
 import com.gbread.executors.tokens.TokenTypeList;
+
+import java.util.Map;
 
 public class UnaryRunner {
     public static void gIf(UnaryNode[] ifNodes, Runner previous) {
@@ -46,4 +54,12 @@ public class UnaryRunner {
             runner.run();
         }
     }
+
+    public static BooleanNode gNot (UnaryNode node, Runner previousRunner) {
+        Runner runner = new Runner(node.getFunctionNode(), previousRunner);
+        ObjectNode objectNode = Node.getObjectNodeFromNode(runner.run(), previousRunner);
+        boolean bool = LogicalRunner.parseLogical(objectNode, previousRunner);
+        return new BooleanNode(!bool);
+    }
+
 }

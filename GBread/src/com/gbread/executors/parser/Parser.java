@@ -38,10 +38,10 @@ public class Parser {
         if (codeString[0].isUnaryOperator()) {
             UnaryParser parser = new UnaryParser(codeString);
             return parser.parseUnaryNode();
-        } else if (codeString[1].isBinaryOperator()){
+        } else if (codeString[1].isBinaryOperator()) {
             BinaryParser parser = new BinaryParser(codeString);
             return parser.parseBinaryNode();
-        }else if (codeString[0].isType(TokenTypeList.FUNCTION_USED)) {
+        } else if (codeString[0].isType(TokenTypeList.FUNCTION_USED)) {
             FunctionParser parser = new FunctionParser(codeString);
             return parser.parseFunction();
         } else {
@@ -56,7 +56,7 @@ public class Parser {
         return findBinaryCodeString();
     }
 
-    private Token[] findBinaryCodeString(){
+    private Token[] findBinaryCodeString() {
         List<Token> tokenList = new ArrayList<>();
         while (!tokenArray[position].isType(TokenTypeList.SEMICOLON)) {
             tokenList.add(tokenArray[position]);
@@ -67,17 +67,22 @@ public class Parser {
         return tokenList.toArray(Token[]::new);
     }
 
-    private Token[] findUnaryCodeString(){
+    private Token[] findUnaryCodeString() {
         List<Token> tokenList = new ArrayList<>();
         int curlyBraceCounter = 1;
-        while (!tokenArray[position].isType(TokenTypeList.LEFT_CUR)){
+        while (!tokenArray[position].isType(TokenTypeList.LEFT_CUR, TokenTypeList.SEMICOLON)) {
             tokenList.add(tokenArray[position]);
             position++;
         }
-        while (curlyBraceCounter != 0){
+        if (tokenArray[0].isType(TokenTypeList.NOT)) {
+            tokenList.add(new Token(TokenTypeList.SEMICOLON.tokenType, ";", tokenList.size()));
+            position++;
+            return tokenList.toArray(Token[]::new);
+        }
+        while (curlyBraceCounter != 0) {
             tokenList.add(tokenArray[position]);
             position++;
-            if (tokenArray[position].isType(TokenTypeList.LEFT_CUR)){
+            if (tokenArray[position].isType(TokenTypeList.LEFT_CUR)) {
                 curlyBraceCounter++;
             } else if (tokenArray[position].isType(TokenTypeList.RIGHT_CUR)) {
                 curlyBraceCounter--;

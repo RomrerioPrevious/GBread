@@ -44,7 +44,8 @@ public record Token(TokenType type, String text, int position) {
                 TokenTypeList.IF,
                 TokenTypeList.ELSE,
                 TokenTypeList.WHILE,
-                TokenTypeList.FUNCTION
+                TokenTypeList.FUNCTION,
+                TokenTypeList.NOT
         );
     }
 

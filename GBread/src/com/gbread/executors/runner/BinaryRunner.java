@@ -6,9 +6,11 @@ import com.gbread.executors.ast.objectNodes.*;
 import com.gbread.executors.ast.operatorNodes.BinaryNode;
 import com.gbread.executors.ast.operatorNodes.ExecutableFunctionNode;
 
+import java.util.Map;
+
 public class BinaryRunner {
     public static void assignment(BinaryNode node, Runner previousRunner) {
-        ObjectNode rightValue = getObjectNodeFromNode(node.rightNode, previousRunner);
+        ObjectNode rightValue = Node.getObjectNodeFromNode(node.rightNode, previousRunner);
         if (node.leftNode instanceof VariableNode variable) {
             variable.value = rightValue;
             previousRunner.variables.put(variable.name, variable);
@@ -18,20 +20,20 @@ public class BinaryRunner {
     }
 
     public static BooleanNode equality(BinaryNode node, Runner previousRunner) {
-        ObjectNode rightValue = getObjectNodeFromNode(node.rightNode, previousRunner);
-        ObjectNode leftValue = getObjectNodeFromNode(node.leftNode, previousRunner);
+        ObjectNode rightValue = Node.getObjectNodeFromNode(node.rightNode, previousRunner);
+        ObjectNode leftValue = Node.getObjectNodeFromNode(node.leftNode, previousRunner);
         return new BooleanNode(rightValue.returnValue().equals(leftValue.returnValue()));
     }
 
     public static BooleanNode notEquality(BinaryNode node, Runner previousRunner) {
-        ObjectNode rightValue = getObjectNodeFromNode(node.rightNode, previousRunner);
-        ObjectNode leftValue = getObjectNodeFromNode(node.leftNode, previousRunner);
+        ObjectNode rightValue = Node.getObjectNodeFromNode(node.rightNode, previousRunner);
+        ObjectNode leftValue = Node.getObjectNodeFromNode(node.leftNode, previousRunner);
         return new BooleanNode(!rightValue.returnValue().equals(leftValue.returnValue()));
     }
 
     public static BooleanNode more(BinaryNode node, Runner previousRunner) {
-        ObjectNode rightNode = getObjectNodeFromNode(node.rightNode, previousRunner);
-        ObjectNode leftNode = getObjectNodeFromNode(node.leftNode, previousRunner);
+        ObjectNode rightNode = Node.getObjectNodeFromNode(node.rightNode, previousRunner);
+        ObjectNode leftNode = Node.getObjectNodeFromNode(node.leftNode, previousRunner);
         Object leftValue = leftNode.returnValue();
         Object rightValue = rightNode.returnValue();
         if (leftValue instanceof Integer & rightValue instanceof Integer) {
@@ -41,8 +43,8 @@ public class BinaryRunner {
     }
 
     public static BooleanNode less(BinaryNode node, Runner previousRunner) {
-        ObjectNode rightNode = getObjectNodeFromNode(node.rightNode, previousRunner);
-        ObjectNode leftNode = getObjectNodeFromNode(node.leftNode, previousRunner);
+        ObjectNode rightNode = Node.getObjectNodeFromNode(node.rightNode, previousRunner);
+        ObjectNode leftNode = Node.getObjectNodeFromNode(node.leftNode, previousRunner);
         Object leftValue = leftNode.returnValue();
         Object rightValue = rightNode.returnValue();
         if (leftValue instanceof Integer & rightValue instanceof Integer) {
@@ -52,8 +54,8 @@ public class BinaryRunner {
     }
 
     public static BooleanNode moreAndEqualty(BinaryNode node, Runner previousRunner) {
-        ObjectNode rightNode = getObjectNodeFromNode(node.rightNode, previousRunner);
-        ObjectNode leftNode = getObjectNodeFromNode(node.leftNode, previousRunner);
+        ObjectNode rightNode = Node.getObjectNodeFromNode(node.rightNode, previousRunner);
+        ObjectNode leftNode = Node.getObjectNodeFromNode(node.leftNode, previousRunner);
         Object leftValue = leftNode.returnValue();
         Object rightValue = rightNode.returnValue();
         if (leftValue instanceof Integer & rightValue instanceof Integer) {
@@ -63,8 +65,8 @@ public class BinaryRunner {
     }
 
     public static BooleanNode lessAndEqualty(BinaryNode node, Runner previousRunner) {
-        ObjectNode rightNode = getObjectNodeFromNode(node.rightNode, previousRunner);
-        ObjectNode leftNode = getObjectNodeFromNode(node.leftNode, previousRunner);
+        ObjectNode rightNode = Node.getObjectNodeFromNode(node.rightNode, previousRunner);
+        ObjectNode leftNode = Node.getObjectNodeFromNode(node.leftNode, previousRunner);
         Object leftValue = leftNode.returnValue();
         Object rightValue = rightNode.returnValue();
         if (leftValue instanceof Integer & rightValue instanceof Integer) {
@@ -74,8 +76,8 @@ public class BinaryRunner {
     }
 
     public static ObjectNode sum(BinaryNode node, Runner previousRunner) {
-        ObjectNode rightNode = getObjectNodeFromNode(node.rightNode, previousRunner);
-        ObjectNode leftNode = getObjectNodeFromNode(node.leftNode, previousRunner);
+        ObjectNode rightNode = Node.getObjectNodeFromNode(node.rightNode, previousRunner);
+        ObjectNode leftNode = Node.getObjectNodeFromNode(node.leftNode, previousRunner);
         Object leftValue = leftNode.returnValue();
         Object rightValue = rightNode.returnValue();
         if (leftValue instanceof String) {
@@ -107,8 +109,8 @@ public class BinaryRunner {
     }
 
     public static ObjectNode subtraction(BinaryNode node, Runner previousRunner) {
-        ObjectNode rightNode = getObjectNodeFromNode(node.rightNode, previousRunner);
-        ObjectNode leftNode = getObjectNodeFromNode(node.leftNode, previousRunner);
+        ObjectNode rightNode = Node.getObjectNodeFromNode(node.rightNode, previousRunner);
+        ObjectNode leftNode = Node.getObjectNodeFromNode(node.leftNode, previousRunner);
         Object leftValue = leftNode.returnValue();
         Object rightValue = rightNode.returnValue();
         if (leftValue instanceof Integer) {
@@ -128,8 +130,8 @@ public class BinaryRunner {
     }
 
     public static ObjectNode division(BinaryNode node, Runner previousRunner) {
-        ObjectNode rightNode = getObjectNodeFromNode(node.rightNode, previousRunner);
-        ObjectNode leftNode = getObjectNodeFromNode(node.leftNode, previousRunner);
+        ObjectNode rightNode = Node.getObjectNodeFromNode(node.rightNode, previousRunner);
+        ObjectNode leftNode = Node.getObjectNodeFromNode(node.leftNode, previousRunner);
         Object leftValue = leftNode.returnValue();
         Object rightValue = rightNode.returnValue();
         if (leftValue instanceof Integer) {
@@ -149,8 +151,8 @@ public class BinaryRunner {
     }
 
     public static ObjectNode multiplication(BinaryNode node, Runner previousRunner) {
-        ObjectNode rightNode = getObjectNodeFromNode(node.rightNode, previousRunner);
-        ObjectNode leftNode = getObjectNodeFromNode(node.leftNode, previousRunner);
+        ObjectNode rightNode = Node.getObjectNodeFromNode(node.rightNode, previousRunner);
+        ObjectNode leftNode = Node.getObjectNodeFromNode(node.leftNode, previousRunner);
         Object leftValue = leftNode.returnValue();
         Object rightValue = rightNode.returnValue();
         if (leftValue instanceof Integer) {
@@ -167,17 +169,5 @@ public class BinaryRunner {
             }
         }
         throw new SyntaxException(node.operator.text(), node.operator.position());
-    }
-
-    public static ObjectNode getObjectNodeFromNode(Node node, Runner previousRunner) {
-        if (node instanceof ExecutableFunctionNode || node instanceof BinaryNode) {
-            Runner runner = new Runner(node, previousRunner);
-            Node variable = runner.run();
-            return getObjectNodeFromNode(variable, previousRunner);
-        } else if (node instanceof ObjectNode) {
-            return (ObjectNode) node;
-        } else {
-            throw new SyntaxException();
-        }
     }
 }

@@ -11,6 +11,7 @@ public enum TokenTypeList {
     FUNCTION(new TokenType("FUNCTION", "func")),
     FLOAT(new TokenType("FLOAT", "\\d+\\.\\d+")),
     NUMBER(new TokenType("NUMBER", "\\d+")),
+    NOT(new TokenType("NOT", "not")),
     EQUALITY(new TokenType("EQUALITY", "==")),
     NOT_EQUALITY(new TokenType("NOT_EQUALITY", "!=")),
     MORE_AND_EQUALITY(new TokenType("MORE_AND_EQUALITY", ">=")),

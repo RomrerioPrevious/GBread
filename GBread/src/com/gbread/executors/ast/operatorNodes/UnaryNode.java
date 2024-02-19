@@ -9,7 +9,6 @@ import java.util.Arrays;
 public class UnaryNode implements Node {
     Token operator;
     Node[] variableNodes;
-
     Node functionNode;
 
     public UnaryNode(Token operator, Node functionNode, Node[] variableNodes) {
