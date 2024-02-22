@@ -19,14 +19,14 @@ public class Lexer {
     }
 
     public List<Token> lexAnalys(){
-        while (nextToken()){
+        while (hasNextToken()){
             tokenList.addAll(getAllTokensFromSubstring());
         }
         tokenList = tokenList.stream().filter(token -> token.type() != TokenTypeList.SPACE.tokenType).toList();
         return tokenList;
     }
 
-    public boolean nextToken(){
+    public boolean hasNextToken(){
         if (position >= code.length())
             return false;
         String word = findNextWord();
@@ -42,15 +42,25 @@ public class Lexer {
         String word = findNextWord();
         List<Token> result = new LinkedList<>();
         Token temp;
-        while (true){
+        while (word != ""){
             temp = getNextToken(word);
-            result.add(temp);
-            if (temp.text().equals(word)){
-               break;
+            if (temp.isType(TokenTypeList.FUNCTION_USED)){
+                result.addAll(List.of(reformatParInFunction(temp)));
+            } else {
+                result.add(temp);
             }
             word = word.substring(temp.text().length());
         }
         return result;
+    }
+
+    public Token[] reformatParInFunction(Token function) {
+        Token[] tokens = new Token[2];
+        StringBuilder functionWithPar = new StringBuilder(function.text());
+        String functionName = String.valueOf(functionWithPar.delete(functionWithPar.length() - 1, functionWithPar.length()));
+        tokens[0] = new Token(TokenTypeList.FUNCTION_USED.tokenType, functionName, position - functionName.length());
+        tokens[1] = new Token(TokenTypeList.LEFT_PAR.tokenType, "(", position);
+        return tokens;
     }
 
     public Token getNextToken(String word) {
@@ -67,18 +77,16 @@ public class Lexer {
     }
 
     private String findNextWord(){
-        if (code.charAt(position) == " ".charAt(0)){
-            return " ";
-        }
         StringBuilder result = new StringBuilder();
         int iterator = position;
-        while (code.charAt(iterator) != " ".charAt(0)){
+        while (code.charAt(iterator) != ";".charAt(0) & code.charAt(iterator) != "}".charAt(0)){
             result.append(code.charAt(iterator));
             if (iterator == code.length() - 1){
                 break;
             }
             iterator++;
         }
+        result.append(code.charAt(iterator));
         return result.toString();
     }
 }
