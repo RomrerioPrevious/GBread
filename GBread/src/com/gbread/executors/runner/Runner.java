@@ -86,13 +86,13 @@ public class Runner {
                     case ("-") -> returnNode = BinaryRunner.subtraction((BinaryNode) node, this);
                     case ("/") -> returnNode = BinaryRunner.division((BinaryNode) node, this);
                     case ("*") -> returnNode = BinaryRunner.multiplication((BinaryNode) node, this);
-                    case "=" -> BinaryRunner.assignment((BinaryNode) node, this);
+                    case ("=") -> BinaryRunner.assignment((BinaryNode) node, this);
                 }
             } else if (node instanceof ObjectNode){
                 returnNode = node;
             } else if (node instanceof ExecutableFunctionNode) {
                 FunctionNode function = functions.get(((ExecutableFunctionNode) node).name);
-                function.run(this, ((ExecutableFunctionNode) node).variableNodes);
+                returnNode = function.run(this, ((ExecutableFunctionNode) node).variableNodes);
             }
         }
         return returnNode;

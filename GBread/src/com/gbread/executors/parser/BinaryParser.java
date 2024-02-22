@@ -72,6 +72,9 @@ public class BinaryParser {
         Node node = token.createNodeFromToken();
         if (node != null){
             return node;
+        } else if (token.isType(TokenTypeList.FUNCTION_USED)) {
+            FunctionParser functionParser = new FunctionParser(new Token[] {token});
+            return functionParser.parseFunction();
         }
         throw new RuntimeException();
     }
