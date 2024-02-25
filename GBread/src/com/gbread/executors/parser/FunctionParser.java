@@ -16,20 +16,14 @@ public class FunctionParser {
     public ExecutableFunctionNode parseFunction(){
         List<Node> nodes = new ArrayList<>();
         Token token;
-        for (int i = 1; i < tokenArray.length; i++){
+        for (int i = 2; i < tokenArray.length; i++){
             token = tokenArray[i];
             if (!token.isFinalOperator()){
                 nodes.add(token.createNodeFromToken());
             }
         }
-        token = deletePar(tokenArray[0]);
+        token = tokenArray[0];
         ExecutableFunctionNode functionNode = new ExecutableFunctionNode(token.text(), nodes.toArray(new Node[0]), null);
         return functionNode;
-    }
-
-    private Token deletePar(Token oldToken){
-        StringBuilder newName = new StringBuilder(oldToken.text());
-        newName.delete(newName.length() - 1, newName.length());
-        return new Token(tokenArray[0].type(), newName.toString(), tokenArray[0].position());
     }
 }
