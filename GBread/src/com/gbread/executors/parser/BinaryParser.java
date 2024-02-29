@@ -25,6 +25,13 @@ public class BinaryParser {
         this.operators = new ArrayList<>();
     }
 
+    public BinaryParser(List<Token> operators) {
+        this.tokenArray = null;
+        this.operators = operators;
+        this.blocks = new ArrayList<>();
+        this.block = new ArrayList<>();
+    }
+
     public BinaryNode parseBinaryNode() {
         Token token;
         while (!tokenArray[position].isType(TokenTypeList.SEMICOLON)) {
@@ -36,6 +43,7 @@ public class BinaryParser {
             } else if (token.isType(TokenTypeList.RIGHT_PAR)) {
                 block.add(token);
                 addBlock(token);
+                operators.remove(operators.size() - 1);
                 block = new ArrayList<>();
             } else {
                 block.add(token);
@@ -49,10 +57,10 @@ public class BinaryParser {
     }
 
     private void addBlock(Token token) {
+        operators.add(token);
+        if (block.size() == 0) return;
         if (block.get(0).isType(TokenTypeList.FUNCTION_USED)) {
             block.add(token);
-        } else {
-            operators.add(token);
         }
         block.add(new Token(TokenTypeList.SEMICOLON.tokenType, ";", 0));
         blocks.add(block.toArray(new Token[0]));
@@ -65,15 +73,57 @@ public class BinaryParser {
 
     private Node[] createNodesFromBlocks() {
         Node[] blockNodes = new Node[blocks.size()];
-        Parser parser;
+        Token[] workBlock;
         position = 0;
-        for (Token[] workBlock : blocks) {
-            parser = new Parser(workBlock);
-            StatementNode statementNode = parser.parseCode();
-            blockNodes[position] = statementNode.getNodeList().get(0);
-            position++;
+        while (position != blockNodes.length) {
+            workBlock = blocks.get(position);
+            if (workBlock[0].isType(TokenTypeList.LEFT_PAR)) {
+                openPars(blockNodes);
+            } else {
+                addNode(blockNodes, workBlock);
+            }
         }
         return blockNodes;
+    }
+
+    private void openPars(Node[] blockNodes) {
+        Token[] workBlock = blocks.get(position);
+        List<Node> parBlocks = new ArrayList<>();
+        while (!workBlock[workBlock.length - 2].isType(TokenTypeList.RIGHT_PAR)) {
+            workBlock = blocks.get(position);
+            addNode(parBlocks, deletePars(workBlock));
+        }
+        List<Token> newOperators = new ArrayList<>(operators);
+        for (int i = 0; i != position - parBlocks.size(); i++) newOperators.remove(0);
+        for (int i = newOperators.size() - 1; i != parBlocks.size() - 2; i--) newOperators.remove(i);
+        for (int i = 0; i != newOperators.size(); i++) {
+            operators.remove(position - parBlocks.size());
+        }
+        BinaryParser binaryParser = new BinaryParser(newOperators);
+        blockNodes[position - parBlocks.size()] = binaryParser.createBinaryNodeFromBlocks(parBlocks.toArray(new Node[0]));
+    }
+
+    private void addNode(Node[] blockNodes, Token[] workBlock) {
+        Parser parser = new Parser(workBlock);
+        StatementNode statementNode = parser.parseCode();
+        blockNodes[position] = statementNode.getNodeList().get(0);
+        position++;
+    }
+
+    private void addNode(List<Node> blockNodes, Token[] workBlock) {
+        Parser parser = new Parser(workBlock);
+        StatementNode statementNode = parser.parseCode();
+        blockNodes.add(statementNode.getNodeList().get(0));
+        position++;
+    }
+
+    private Token[] deletePars(Token[] block) {
+        List<Token> returnTokens = new ArrayList<>(List.of(block));
+        if (block[0].isType(TokenTypeList.LEFT_PAR))
+            returnTokens.remove(0);
+        if (block[block.length - 1].isType(TokenTypeList.RIGHT_PAR))
+            returnTokens.remove(block.length - 1);
+        return returnTokens.toArray(new Token[0]);
     }
 
     private BinaryNode createBinaryNodeFromBlocks(Node[] blocksNodes) {
@@ -130,18 +180,5 @@ public class BinaryParser {
 
         priority.put(")", 3);
         return priority;
-    }
-
-    private static void swapBinaryNodes(BinaryNode fallingNode, BinaryNode risingNode) {
-        Node temp;
-        if (fallingNode.rightNode == risingNode) {
-            temp = risingNode.leftNode;
-            fallingNode.rightNode = temp;
-            risingNode.leftNode = fallingNode;
-        } else {
-            temp = risingNode.rightNode;
-            fallingNode.leftNode = temp;
-            risingNode.rightNode = fallingNode;
-        }
     }
 }
