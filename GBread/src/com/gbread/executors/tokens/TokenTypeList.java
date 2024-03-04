@@ -7,7 +7,7 @@ public enum TokenTypeList {
     WHILE(new TokenType("WHILE", "while")),
     TRUE(new TokenType("TRUE", "true")),
     FALSE(new TokenType("FALSE", "false")),
-    STRING(new TokenType("STRING", "\".*\"")),
+    STRING(new TokenType("STRING", "(\"[^\"]*\"|'[^']*')")),
     FUNCTION(new TokenType("FUNCTION", "func")),
     FLOAT(new TokenType("FLOAT", "\\d+\\.\\d+")),
     NUMBER(new TokenType("NUMBER", "\\d+")),
@@ -20,8 +20,7 @@ public enum TokenTypeList {
     LESS(new TokenType("LESS", "<")),
     ASSIGN(new TokenType("ASSIGN", "=")),
     SPACE(new TokenType("SPACE", " ")),
-    FUNCTION_USED(new TokenType("FUNCTION_USED", "[a-zA-Z]+\\(")),
-    VARIABLE(new TokenType("VARIABLE", "[a-zA-Z]+")),
+    FUNCTION_USED(new TokenType("FUNCTION_USED", ".+\\(")),
     PLUS(new TokenType("PLUS", "\\+")),
     MINUS(new TokenType("MINUS", "\\-")),
     SLASH(new TokenType("SLASH", "/")),
@@ -30,7 +29,8 @@ public enum TokenTypeList {
     RIGHT_PAR(new TokenType("RIGHT_PAR", "\\)")),
     RIGHT_CUR(new TokenType("RIGHT_CUR", "\\}")),
     LEFT_CUR(new TokenType("LEFT_CUR", "\\{")),
-    SEMICOLON(new TokenType("SEMICOLON", ";"));
+    SEMICOLON(new TokenType("SEMICOLON", ";")),
+    VARIABLE(new TokenType("VARIABLE", "[a-zA-Z]+"));
 
     public TokenType tokenType;
 
