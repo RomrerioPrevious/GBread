@@ -35,7 +35,10 @@ public class Parser {
 
     private Node parseCodeString() {
         Token[] codeString = findCodeString();
-        if (codeString[0].isUnaryOperator()) {
+        if (codeString[0].isType(TokenTypeList.FUNCTION)){
+            FunctionParser parser = new FunctionParser(codeString);
+            return parser.parseFunction();
+        } else if (codeString[0].isUnaryOperator()) {
             UnaryParser parser = new UnaryParser(codeString);
             return parser.parseUnaryNode();
         } else if (codeString[1].isBinaryOperator()) {
@@ -43,7 +46,7 @@ public class Parser {
             return parser.parseBinaryNode();
         } else if (codeString[0].isType(TokenTypeList.FUNCTION_USED)) {
             FunctionParser parser = new FunctionParser(codeString);
-            return parser.parseFunction();
+            return parser.parseExecutableFunction();
         } else {
             return codeString[0].createNodeFromToken();
         }

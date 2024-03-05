@@ -17,12 +17,6 @@ public class UnaryNode implements Node {
         this.variableNodes = variableNodes;
     }
 
-    public UnaryNode(TokenTypeList operator, Node functionNode, Node[] variableNodes, String name) {
-        this.operator = new Token(operator.tokenType, name, 0);
-        this.functionNode = functionNode;
-        this.variableNodes = variableNodes;
-    }
-
     public Token getOperator() {
         return operator;
     }

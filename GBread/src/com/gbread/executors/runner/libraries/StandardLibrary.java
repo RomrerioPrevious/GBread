@@ -11,28 +11,34 @@ import java.util.*;
 public class StandardLibrary {
     public static Map<String, FunctionNode> functions() {
         Map<String, FunctionNode> functions = new HashMap<>();
-        FunctionNode print = (previousRunner, parameters) -> {
-            Runner runner;
-            ObjectNode temp;
-            for (Node node : parameters) {
-                runner = new Runner(node, previousRunner);
-                temp = Node.getObjectNodeFromNode(runner.run(), previousRunner);
-                System.out.print(temp.returnStringValue());
+        FunctionNode print = new FunctionNode() {
+            @Override
+            public Node run(Runner previousRunner, Node... parameters) {
+                Runner runner;
+                ObjectNode temp;
+                for (Node node : parameters) {
+                    runner = new Runner(node, previousRunner);
+                    temp = Node.getObjectNodeFromNode(runner.run(), previousRunner);
+                    System.out.print(temp.returnStringValue());
+                }
+                System.out.println();
+                return null;
             }
-            System.out.println();
-            return null;
         };
         functions.put("print", print);
-        FunctionNode input = (previousRunner, parameters) -> {
-            Runner runner;
-            ObjectNode temp;
-            for (Node node : parameters) {
-                runner = new Runner(node, previousRunner);
-                temp = Node.getObjectNodeFromNode(runner.run(), previousRunner);
-                System.out.print(temp.returnStringValue());
+        FunctionNode input = new FunctionNode() {
+            @Override
+            public Node run(Runner previousRunner, Node... parameters) {
+                Runner runner;
+                ObjectNode temp;
+                for (Node node : parameters) {
+                    runner = new Runner(node, previousRunner);
+                    temp = Node.getObjectNodeFromNode(runner.run(), previousRunner);
+                    System.out.print(temp.returnStringValue());
+                }
+                Scanner scanner = new Scanner(System.in);
+                return new StringNode(scanner.nextLine());
             }
-            Scanner scanner = new Scanner(System.in);
-            return new StringNode(scanner.nextLine());
         };
         functions.put("input", input);
         return functions;

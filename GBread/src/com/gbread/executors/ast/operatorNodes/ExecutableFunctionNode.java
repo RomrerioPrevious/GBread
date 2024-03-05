@@ -8,7 +8,7 @@ public class ExecutableFunctionNode implements Node {
     public String name;
     public Node[] variableNodes;
 
-    public ExecutableFunctionNode(String name, Node[] variableNodes, Node functionNode) {
+    public ExecutableFunctionNode(String name, Node[] variableNodes) {
         this.name = name;
         this.variableNodes = variableNodes;
     }

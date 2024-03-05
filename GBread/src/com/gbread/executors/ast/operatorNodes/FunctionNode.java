@@ -4,5 +4,11 @@ import com.gbread.executors.ast.Node;
 import com.gbread.executors.runner.Runner;
 
 public interface FunctionNode extends Node {
-    Node run(Runner previousRunner, Node... parameters);
+    String name = null;
+    Node[] variableNodes = null;
+    Node functionNode = null;
+
+    default Node run(Runner previousRunner, Node... parameters) {
+        return null;
+    }
 }
