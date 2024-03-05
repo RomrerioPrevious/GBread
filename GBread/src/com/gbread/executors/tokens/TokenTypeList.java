@@ -20,7 +20,7 @@ public enum TokenTypeList {
     LESS(new TokenType("LESS", "<")),
     ASSIGN(new TokenType("ASSIGN", "=")),
     SPACE(new TokenType("SPACE", " ")),
-    FUNCTION_USED(new TokenType("FUNCTION_USED", ".+\\(")),
+    FUNCTION_USED(new TokenType("FUNCTION_USED", "[a-zA-Z]+\\(")),
     PLUS(new TokenType("PLUS", "\\+")),
     MINUS(new TokenType("MINUS", "\\-")),
     SLASH(new TokenType("SLASH", "/")),
