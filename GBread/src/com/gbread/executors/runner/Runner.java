@@ -43,10 +43,9 @@ public class Runner {
 
     private Map<String, FunctionNode> findFunctionsInCode() {
         Map<String, FunctionNode> functionList = new HashMap<>();
-        for (Node i : openNode(ast)) {
-            if (i instanceof UnaryNode) {
-                if (((UnaryNode) i).getOperator().isType(TokenTypeList.FUNCTION)) {
-                }
+        for (Node node : openNode(ast)) {
+            if (node instanceof FunctionNode function) {
+                functionList.put(function.getName(), function);
             }
         }
         return functionList;
@@ -88,7 +87,7 @@ public class Runner {
                     case ("*") -> returnNode = BinaryRunner.multiplication((BinaryNode) node, this);
                     case ("=") -> BinaryRunner.assignment((BinaryNode) node, this);
                 }
-            } else if (node instanceof ObjectNode){
+            } else if (node instanceof ObjectNode) {
                 returnNode = node;
             } else if (node instanceof ExecutableFunctionNode) {
                 FunctionNode function = functions.get(((ExecutableFunctionNode) node).name);

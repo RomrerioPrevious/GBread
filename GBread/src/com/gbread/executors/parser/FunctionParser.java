@@ -5,6 +5,7 @@ import com.gbread.executors.ast.objectNodes.VariableNode;
 import com.gbread.executors.ast.operatorNodes.ExecutableFunctionNode;
 import com.gbread.executors.ast.operatorNodes.FunctionNode;
 import com.gbread.executors.ast.operatorNodes.UnaryNode;
+import com.gbread.executors.runner.Runner;
 import com.gbread.executors.tokens.Token;
 import com.gbread.executors.tokens.TokenTypeList;
 
@@ -29,11 +30,34 @@ public class FunctionParser {
                 variables.add((VariableNode) token.createNodeFromToken());
         }
         Parser parser = new Parser(tokenArray, 5 + variables.size());
-        return new FunctionNode() {
-            String name = functionName;
-            Node[] variableNodes = variables.toArray(new Node[0]);
-            Node functionNode = parser.parseCode();
+        FunctionNode func = new FunctionNode() {
+            public final String name = functionName;
+            public final Node[] variableNodes = variables.toArray(new Node[0]);
+            public final Node functionNode = parser.parseCode();
+
+            @Override
+            public Node run(Runner previousRunner, Node... parameters) {
+                Runner runner = new Runner(functionNode, previousRunner);
+                Node returnValue = runner.run();
+                return returnValue;
+            }
+
+            @Override
+            public String getName() {
+                return name;
+            }
+
+            @Override
+            public Node getFunctionNode() {
+                return functionNode;
+            }
+
+            @Override
+            public Node[] getVariableNodes() {
+                return variableNodes;
+            }
         };
+        return func;
     }
 
     public ExecutableFunctionNode parseExecutableFunction(){
