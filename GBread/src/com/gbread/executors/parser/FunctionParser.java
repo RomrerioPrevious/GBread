@@ -1,6 +1,7 @@
 package com.gbread.executors.parser;
 
 import com.gbread.executors.ast.Node;
+import com.gbread.executors.ast.objectNodes.ObjectNode;
 import com.gbread.executors.ast.objectNodes.VariableNode;
 import com.gbread.executors.ast.operatorNodes.ExecutableFunctionNode;
 import com.gbread.executors.ast.operatorNodes.FunctionNode;
@@ -38,6 +39,13 @@ public class FunctionParser {
             @Override
             public Node run(Runner previousRunner, Node... parameters) {
                 Runner runner = new Runner(functionNode, previousRunner);
+                for (int i = 0; i != parameters.length; i++) {
+                    if (variableNodes[i] instanceof VariableNode variableNode) {
+                        Runner temp = new Runner(parameters[i], previousRunner);
+                        variableNode.value = (ObjectNode) temp.run();
+                        runner.variables.put(variableNode.name, variableNode);
+                    }
+                }
                 Node returnValue = runner.run();
                 return returnValue;
             }
